@@ -71,6 +71,15 @@ class UserControllerV1 extends BaseController {
         }
     }
 
+    public async getTest(req: IFilteredRequest<ICreateQuize>, res: Response, next: NextFunction) {
+        try {
+            const requestResult: any = await userServicesV1.getTest(req.body);
+            res.status(200).send(requestResult);
+        } catch (error: any) {
+            return res.send(error);
+        }
+    }
+
 
 
 }

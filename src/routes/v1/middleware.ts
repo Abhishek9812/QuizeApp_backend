@@ -4,7 +4,10 @@ import { secretUtil } from "../../utils/secretutil";
 
 const middleware = async (req, res, next)=>{
     try {
-        const token = req.get("authorization");;
+        const token = req.get("authorization");
+        if(!token) {
+            throw new Error("User not found");
+        }
         const varifyToken = jwt.verify(token, secretUtil.SECRET_KEY);
 
         const rootUser = await userLoginModel.findOne({_id: varifyToken.id, "tokens.token": token});
@@ -18,7 +21,7 @@ const middleware = async (req, res, next)=>{
         next();
 
     } catch (error) {
-        res.status(401).send({msg: error});
+        return res.status(401).send({msg: error});
         console.log(error);
     }
 }

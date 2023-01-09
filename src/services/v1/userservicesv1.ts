@@ -1,6 +1,9 @@
+import { Mongoose } from "mongoose";
 import { createQuestionModel, ICreateQuestion } from "../../models/questions/question.model";
 import { createQuizeModel, ICreateQuize } from "../../models/quizes/quize.model";
 import { UserLogin, userLoginModel, IUserLogin } from "../../models/users/login.model";
+var ObjectId = require('mongoose').Types.ObjectId;
+var mongoose = require('mongoose');
 const bcrypt = require("bcrypt");
 
 class UserServicesV1 {
@@ -120,6 +123,25 @@ class UserServicesV1 {
             let data = await model.save();
 
             return { code : 200, data: data, msg: "Quize Created Successfully",};
+
+
+        } catch (error) {
+            return { code : 206, msg: "Something went wrong" };
+        }
+    };
+
+    public getTest = async (req: ICreateQuize) => {
+        try {
+            const { _id } = req;
+            if(!ObjectId.isValid(_id)){
+                return {code : 206, msg: "Invalid id"};
+            }
+            let data = await createQuizeModel.findOne({_id: mongoose.Types.ObjectId(_id)});
+            if(!data){
+                return {code : 206, msg: "Invalid id"};
+            }
+
+            return { code : 200, data: data, msg: "Successfully",};
 
 
         } catch (error) {

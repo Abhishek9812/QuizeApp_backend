@@ -39,6 +39,9 @@ class MasterRouteV1 extends BaseRoutes {
         this.router.post("/createQuize" ,middleware, (req: Request, res: Response, next: NextFunction) => {
             userControllerV1.createQuize(req, res, next);
         });  
+        this.router.post("/getTest" ,middleware, (req: Request, res: Response, next: NextFunction) => {
+            userControllerV1.getTest(req, res, next);
+        });  
 
     }
 }
